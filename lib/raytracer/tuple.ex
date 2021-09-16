@@ -3,7 +3,6 @@ defmodule Raytracer.Tuple do
 
   @epsilon 0.0001
 
-
   # Types
 
   @type t :: %Raytracer.Tuple{
@@ -15,20 +14,23 @@ defmodule Raytracer.Tuple do
 
   @type scalar :: number()
 
-
   # Constructors
+
   def build(x, y, z, w), do: %__MODULE__{x: x, y: y, z: z, w: w}
   def build_point(x, y, z), do: %__MODULE__{x: x, y: y, z: z, w: 1.0}
   def build_vector(x, y, z), do: %__MODULE__{x: x, y: y, z: z, w: 0.0}
-
 
   # Queries
 
   def equal?(t1, t2) do
     float_equal?(t1.x, t2.x) &&
-    float_equal?(t1.y, t2.y) &&
-    float_equal?(t1.z, t2.z) &&
-    float_equal?(t1.w, t2.w)
+      float_equal?(t1.y, t2.y) &&
+      float_equal?(t1.z, t2.z) &&
+      float_equal?(t1.w, t2.w)
+  end
+
+  defp float_equal?(f1, f2) do
+    abs(f1 - f2) < @epsilon
   end
 
   def magnitude(t) do
@@ -38,12 +40,7 @@ defmodule Raytracer.Tuple do
   def is_point?(tuple), do: float_equal?(tuple.w, 1.0)
   def is_vector?(tuple), do: float_equal?(tuple.w, 0.0)
 
-
   # Operators
-
-  defp float_equal?(f1, f2) do
-    abs(f1-f2) < @epsilon
-  end
 
   def add(t1, t2) do
     %__MODULE__{x: t1.x + t2.x, y: t1.y + t2.y, z: t1.z + t2.z, w: t1.w + t2.w}
@@ -71,17 +68,18 @@ defmodule Raytracer.Tuple do
 
   def dot(t1, t2) do
     t1.x * t2.x +
-    t1.y * t2.y +
-    t1.z * t2.z +
-    t1.w * t2.w
+      t1.y * t2.y +
+      t1.z * t2.z +
+      t1.w * t2.w
   end
 
   def cross(t1, t2) do
-    build_vector(t1.y * t2.z - t1.z * t2.y,
-                 t1.z * t2.x - t1.x * t2.z,
-                 t1.x * t2.y - t1.y * t2.x)
+    build_vector(
+      t1.y * t2.z - t1.z * t2.y,
+      t1.z * t2.x - t1.x * t2.z,
+      t1.x * t2.y - t1.y * t2.x
+    )
   end
-
 
   # Implementations
 
@@ -94,7 +92,7 @@ defmodule Raytracer.Tuple do
 
       concat(
         "%Tuple",
-        container_doc("[", docs, "]", opts, fun, [separator: ","])
+        container_doc("[", docs, "]", opts, fun, separator: ",")
       )
     end
   end
