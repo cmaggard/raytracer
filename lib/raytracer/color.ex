@@ -1,7 +1,7 @@
 defmodule Raytracer.Color do
-  defstruct r: 0.0, g: 0.0, b: 0.0
+  import Raytracer.Helper, only: [float_equal?: 2, clamp: 3]
 
-  @epsilon 0.0001
+  defstruct r: 0.0, g: 0.0, b: 0.0
 
   # Types
 
@@ -27,19 +27,11 @@ defmodule Raytracer.Color do
   end
 
   def to_s(c) do
-    "#{clamp(c.r * 255)} #{clamp(c.g * 255)} #{clamp(c.b * 255)}"
+    "#{clamp(c.r * 255, 0, 255)} #{clamp(c.g * 255, 0, 255)} #{clamp(c.b * 255, 0, 255)}"
   end
 
   def to_l(c) do
-    [clamp(c.r * 255), clamp(c.g * 255), clamp(c.b * 255)]
-  end
-
-  defp clamp(v) when v > 255, do: 255
-  defp clamp(v) when v < 0, do: 0
-  defp clamp(v), do: round(v)
-
-  defp float_equal?(f1, f2) do
-    abs(f1 - f2) < @epsilon
+    [clamp(c.r * 255, 0, 255), clamp(c.g * 255, 0, 255), clamp(c.b * 255, 0, 255)]
   end
 
   # Operations

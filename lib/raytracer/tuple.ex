@@ -1,7 +1,6 @@
 defmodule Raytracer.Tuple do
+  import Raytracer.Helper, only: [float_equal?: 2]
   defstruct x: 0.0, y: 0.0, z: 0.0, w: 0.0
-
-  @epsilon 0.0001
 
   # Types
 
@@ -27,10 +26,6 @@ defmodule Raytracer.Tuple do
       float_equal?(t1.y, t2.y) &&
       float_equal?(t1.z, t2.z) &&
       float_equal?(t1.w, t2.w)
-  end
-
-  defp float_equal?(f1, f2) do
-    abs(f1 - f2) < @epsilon
   end
 
   def magnitude(t) do
